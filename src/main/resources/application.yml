@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: auth-microservice
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/microservices_db
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+jwt:
+  secret: "aDIQSpJVET1K/t+dumyNyy+2PYb0KiLCWASdYwwRfbJ8D2BnWB1x5jtzzPskZLF0O4yjpbjl/F7Abnrw9LmjFg=="
+  expiration: 3600000
+
+firebase:
+  credentials: classpath:serviceAccountKey.json
+
+# Added management configuration for actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+      base-path: /actuator
+    prometheus:
+      enabled: true
+
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
